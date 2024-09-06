@@ -13,56 +13,74 @@ typedef struct {
 Book L[100];
 int dim = 0;
 int ID = 0;
-int i,j;
+int i, j;
+
 void ajouter_livre() {
-    if (dim >= 100) {
-        printf("le stock est plein, impossible d'ajouter un nouveau livre.\n");
-    }
+
     printf("Entrer le titre : ");
-    scanf(" %29[^\n]", L[dim].titre); 
+    scanf(" %29[^\n]", L[dim].titre);
     printf("Auteur : ");
-    scanf(" %24[^\n]", L[dim].auteur);  
-    L[dim].id = ID + 1;
+    scanf(" %24[^\n]", L[dim].auteur);
+    L[dim].id = ID+1;
     printf("Prix : ");
     scanf("%d", &L[dim].prix);
-    printf("Entrer la quantité : ");
+    printf("Entrer la quantitï¿½ : ");
     scanf("%d", &L[dim].quantite);
 
     dim++;
     ID++;
 }
 
-void modifier_livre(){
+void modifier_livre() {
     int id, nv_quant;
     int exist = 0;
 
-    printf("Entrer l'ID du livre à modifier : ");
+    printf("Entrer l'ID du livre ï¿½ modifier : ");
     scanf("%d", &id);
-    printf("Entrer la nouvelle quantité : ");
+    printf("Entrer la nouvelle quantitï¿½ : ");
     scanf("%d", &nv_quant);
 
     for (i = 0; i < dim; i++) {
-    if (L[i].id == id) {
-         L[i].quantite = nv_quant;
-          exist= 1;
-        printf("Quantité mise à jour avec succès.\n");
-           break;
-       }
+        if (L[i].id == ID) {
+            L[i].quantite = nv_quant;
+            exist = 1;
+            printf("Quantitï¿½ mise ï¿½ jour avec succï¿½s.\n");
+            break;
+        }
     }
 
     if (!exist) {
-        printf("Livre avec id %d non trouvé.\n", id);
+        printf("Livre avec ID %d non trouvï¿½.\n", id);
+    }
+}
+
+void chercher_livre() {
+    char recherche[30];
+    printf("Entrez le titre du livre ï¿½ rechercher : ");
+    scanf(" %29[^\n]", recherche);
+    int exist = 0;
+    for (i = 0; i < dim; i++) {
+        if (strcmp(L[i].titre, recherche) == 0) {
+            printf("Livre trouvï¿½ :\n");
+            printf("Titre : %s \n Auteur : %s \n Prix : %d Dh \n Quantitï¿½ : %d\n", L[i].titre, L[i].auteur, L[i].prix, L[i].quantite);
+            exist++;
+            break;
+        }
+    }
+    if (!exist) {
+        printf("Livre non trouvï¿½.\n");
     }
 }
 
 void afficher_livres() {
     if (dim == 0) {
-        printf("Aucun livre à afficher.\n");
+        printf("Aucun livre ï¿½ afficher.\n");
         return;
     }
 
     for (i = 0; i < dim; i++) {
-        printf("ID: %d\nTitre: %s\nAuteur: %s\nPrix: %d\nQuantité: %d\n\n",
+            printf("\n\n");
+        printf("ID: %d\nTitre: %s\nAuteur: %s\nPrix: %d\nQuantitï¿½: %d\n\n",
             L[i].id, L[i].titre, L[i].auteur, L[i].prix, L[i].quantite);
     }
 }
@@ -70,66 +88,79 @@ void afficher_livres() {
 void supprimer_livre() {
     int id, exist = 0;
 
-    printf("Entrer l'ID du livre à supprimer : ");
+    printf("Entrer l'ID du livre ï¿½ supprimer : ");
     scanf("%d", &id);
 
     for (i = 0; i < dim; i++) {
-       if (L[i].id == id) {
-    for ( j = i; j < dim - 1; j++) {
-        L[j] = L[j + 1];
-         }
-     dim--;
-       exist = 1;
-	   printf("Livre supprimé avec succès.\n");
+        if (L[i].id == id) {
+            for (j = i; j < dim - 1; j++) {
+                L[j] = L[j + 1];
+            }
+            dim--;
+            exist = 1;
+            printf("Livre supprimï¿½ avec succï¿½s.\n");
             break;
-    }
+        }
     }
 
     if (!exist) {
-        printf("Livre avec ID %d introuvable .\n", id);
+    printf("Livre avec ID %d introuvable.\n", id);
     }
 }
 
 void afficher_nbr_livre() {
-    printf("Nombre total de livres : %d\n", dim);
+    int crono=0;
+    for (i = 0; i < dim; i++) {
+    crono=crono+L[i].quantite;
 }
-void menu(){
+printf("le nombre totale des livre en stock est: %d ",crono);
+}
+
+void menu() {
     printf("Bonjour, vous pouvez choisir :\n");
     printf("1: Ajouter un livre\n");
-     printf("2: Afficher tous les livres disponibles\n");
-    printf("3: Changer la quantité pour un livre\n");
+    printf("2: Afficher tous les livres disponibles\n");
+    printf("3: Changer la quantitï¿½ pour un livre\n");
     printf("4: Supprimer un livre\n");
     printf("5: Afficher le nombre total des livres\n");
-    printf("6: Quitter\n");
-    printf("Saisir un nombre entre 1 et 6 : ");
-    }
-	
+    printf("6:chercher un seul livre:\n");
+    printf("7: Quitter\n");
+    printf("Saisir un nombre entre 1 et 7 : ");
+}
+
 int main() {
-	int num;
-	do{
-    menu();
-    scanf("%d",&num);
-    }while(num!=6);
-   switch (num) {
-    case 1:
-    ajouter_livre();
-    break;
-    case 2:
-    afficher_livres();
-    break;
-    case 3:
-     modifier_livre();
-    break;
-    case 4:
-    supprimer_livre();
-    break;
-    case 5:
-    afficher_nbr_livre();
-    break;
-    case 6:
-    printf("vous avez quite Au revoir a la prochaine fois.\n");
+    int num;
+    do {
+        printf("\n\n");
+        menu();
+        scanf("%d", &num);
+
+        switch (num) {
+            case 1:
+                ajouter_livre();
+                break;
+            case 2:
+                afficher_livres();
+                break;
+            case 3:
+                modifier_livre();
+                break;
+            case 4:
+                supprimer_livre();
+                break;
+            case 5:
+                afficher_nbr_livre();
+                break;
+                case 6:
+                 chercher_livre() ;
+                break;
+
+            case 7:
+                printf("Vous avez quittï¿½. Au revoir et ï¿½ la prochaine fois\n");
+                return 0;
+                break;
+        }
+    } while (num != 7);
+
     return 0;
-   break;
-    }
-	return 0;
 }
